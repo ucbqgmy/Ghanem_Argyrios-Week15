@@ -11,6 +11,8 @@ public class Voxel : IEquatable<Voxel>
     public List<Face> Faces = new List<Face>(6);
     public Vector3 Center => (Index + _voxelGrid.Origin) * _size;
     public bool IsActive;
+    public Vector3Int Direction;
+    public bool Defined;
 
     #endregion
 
@@ -39,10 +41,15 @@ public class Voxel : IEquatable<Voxel>
         _voxelGO.transform.position = (_voxelGrid.Origin + Index) * _size;
         _voxelGO.transform.localScale *= _voxelGrid.VoxelSize * sizeFactor;
         _voxelGO.name = $"Voxel_{Index.x}_{Index.y}_{Index.z}";
+        _voxelGO.tag = "Voxel";
         _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Basic");
     }
 
+    public void ShowDirection()
+    {
+        if (Direction == null) return;
 
+    }
     /// <summary>
     /// Generic constructor, alllows the use of inheritance
     /// </summary>
@@ -51,6 +58,8 @@ public class Voxel : IEquatable<Voxel>
     #endregion
 
     #region Public methods
+
+
 
     /// <summary>
     /// Get the neighbouring voxels at each face, if it exists

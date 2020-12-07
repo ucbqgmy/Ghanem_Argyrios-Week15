@@ -7,18 +7,55 @@ public class GraphVoxel : Voxel
 {
     //03 Create Regions
     #region Private fields
-    
+
     //04 Create private _state float
     private float _state;
+    private bool _isObstacle;
+    private bool _isVoid;
 
     #endregion
 
     #region Public fields
 
     //24 Create IsObstacle variable
-    public bool IsObstacle;
-    public bool IsVoid;
-    
+    public bool IsObstacle
+    {
+        get
+        {
+            return _isObstacle;
+        }
+        set
+        {
+            if (value)
+            {
+                _voxelGO.tag = "ObstacleVoxel";
+                _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Obstacle");
+                IsVoid = false;
+                IsPath = false;
+            }
+
+            _isObstacle = value;
+        }
+    }
+    public bool IsVoid
+    {
+        get
+        {
+            return _isVoid;
+        }
+        set
+        {
+            if (value)
+            {
+                _voxelGO.tag = "VoidVoxel";
+                _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Void");
+                IsObstacle = false;
+                IsPath = false;
+            }
+            _isVoid = value;
+        }
+    }
+
     //44 Create IsTarget variable
     public bool IsTarget;
 
@@ -49,8 +86,8 @@ public class GraphVoxel : Voxel
         _voxelGO.transform.position = (_voxelGrid.Origin + Index) * _size;
         _voxelGO.transform.localScale *= _voxelGrid.VoxelSize * sizeFactor;
         _voxelGO.name = $"Voxel_{Index.x}_{Index.y}_{Index.z}";
+        _voxelGO.tag = "Voxel";
         _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Basic");
-        //_voxelGO.tag = ("ObstacleVoxel");
 
         IsActive = true;
     }
@@ -69,30 +106,17 @@ public class GraphVoxel : Voxel
         //19 Set state field
         _state = newState;
 
-
         //22 Set voxel as void if value is below threshold
         if (_state <= 1 / _voxelGrid.GridSize.y)
         {
-            //23 Read material and set
-            _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Obstacle");
-            
-            //25 Set as not obstacle
-            IsObstacle = true;
-
-            //26 Create tag in Unity and set here
-            _voxelGO.tag = "ObstacleVoxel";
+            //25 Set as obstacle
+            IsObstacle = false;
         }
         //27 Set voxel as obstacle
         else
         {
-            //28 Read material and set
-            _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Void");
-            
             //29 Set as obstacle
-            IsObstacle = false;
-
-            //30 Create tag in Unity and set
-            _voxelGO.tag = "VoidVoxel";
+            IsObstacle = true;
         }
     }
 
@@ -113,7 +137,7 @@ public class GraphVoxel : Voxel
     {
         //54 Flip target bool
         IsTarget = !IsTarget;
-        
+
         //55 If voxel is target, set material and tag
         if (IsTarget)
         {
@@ -124,7 +148,7 @@ public class GraphVoxel : Voxel
         else
         {
             _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Void");
-            _voxelGO.tag = "VoidVoxel";
+            IsObstacle = true;
         }
     }
 
