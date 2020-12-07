@@ -255,6 +255,8 @@ public class VoxelGrid : MonoBehaviour
         }
     }
 
+    public Voxel GetVoxelByIndex(Vector3Int index) => GetVoxels().First(v => v.Index == index);
+
     #endregion
 
     

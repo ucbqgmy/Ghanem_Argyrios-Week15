@@ -9,6 +9,7 @@ TagManager:
   - TargetVoxel
   - PathVoxel
   - Test
+  - Voxel
   layers:
   - Default
   - TransparentFX
