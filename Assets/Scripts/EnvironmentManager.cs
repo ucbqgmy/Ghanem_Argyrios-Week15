@@ -23,7 +23,7 @@ public class EnvironmentManager : MonoBehaviour
     public void Start()
     {
         //01 Create a basic VoxelGrid
-        _voxelGrid = new VoxelGrid(new Vector3Int(10, 1, 10), transform.position, 1f);
+        _voxelGrid = new VoxelGrid(new Vector3Int(20, 1, 20), transform.position, 1f);
 
     }
 

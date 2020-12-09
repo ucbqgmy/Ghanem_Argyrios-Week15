@@ -12,6 +12,8 @@ public class GraphVoxel : Voxel
     private float _state;
     private bool _isObstacle;
     private bool _isVoid;
+    private bool _isTarget;
+    private bool _isPath;
 
     #endregion
 
@@ -47,7 +49,7 @@ public class GraphVoxel : Voxel
         {
             if (value)
             {
-                _voxelGO.tag = "VoidVoxel";
+                _voxelGO.tag = "voidVoxel";
                 _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Void");
                 IsObstacle = false;
                 IsPath = false;
@@ -57,10 +59,44 @@ public class GraphVoxel : Voxel
     }
 
     //44 Create IsTarget variable
-    public bool IsTarget;
+    public bool IsTarget
+    {
+        get
+        {
+            return _isTarget;
+        }
+        set
+        {
+            if (value)
+            {
+                _voxelGO.tag = "TargetVoxel";
+                _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Target");
+                  IsObstacle = false;
+                  IsPath = false;
+             }
+            _isTarget = value;
+        }
+    }
 
     //77 Create IsPath variable
-    public bool IsPath;
+    public bool IsPath
+    {
+        get
+        {
+            return _isPath;
+        }
+        set
+        {
+             if (value)
+             {
+                 _voxelGO.tag = "PathVoxel";
+                 _voxelGO.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/GV_Path");
+                 IsObstacle = false;
+                 IsPath = false;
+             }
+             _isPath = value;
+        }
+    }
 
     #endregion
 
